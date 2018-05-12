@@ -24,7 +24,7 @@ public class MenuState extends GameState {
 	
 	public MenuState(GameStateManger gameStateManger) {
 		this.gsm= gameStateManger;
-		bg = new Background("/res/backgrounds/background.png", 1);
+		bg = new Background("/res/backgrounds/background.jpg", 1);
 		bg.setVector(-0.1, 0);
 		setTitleColor(Color.WHITE);
 		setTitleFront(new Font("Century Gothic", Font.PLAIN, 15));

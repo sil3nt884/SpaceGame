@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import com.platformer.config.GameConfig;
 import com.platformer.gamestates.GameStateManger;
-import com.platformer.objects.Map;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener{
 

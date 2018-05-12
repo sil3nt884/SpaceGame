@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.platformer.GameCanvas;
+
 public class Player {
 
 	private double x, y;
@@ -19,9 +21,22 @@ public class Player {
 	}
 
 	
-	public void update(double gravity) {
-		y+=gravity;
+	public void update() {
 		playRect.y = (int) y;
+		playRect.x = (int) x;
+		if(y <= 0) {
+			y = 0;
+		}
+		if(y >= 250) {
+			y = 250;
+		}
+		if(x >= 370) {
+			x = 370;
+		}
+		if(x <= 0) {
+			x = 0;
+		}
+		System.out.println(y);
 	}
 	public void draw(Graphics2D g2) {
 		g2.drawImage(playImage,  playRect.x, playRect.y, 50/2, 50/2,null);

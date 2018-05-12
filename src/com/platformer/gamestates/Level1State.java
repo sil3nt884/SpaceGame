@@ -5,49 +5,44 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-
 import javax.swing.Timer;
-
 import com.platformer.GameCanvas;
-import com.platformer.objects.Map;
+import com.platformer.objects.Level1Background;
 import com.platformer.objects.Player;
-import com.platformer.objects.Tile;
 
 public class Level1State extends GameState implements ActionListener{
 
 	private GameStateManger gsm;
-	private Map map;
 	private Player player;
 	double gravity = 9.8;
 	long gravityTime  =0;
 	private Timer timer = new Timer (1000, this);
 	int seconds = 0;
 	boolean gravityEffect = true;
+	private Level1Background level1;
 	
 
 	public Level1State(GameStateManger gameStateManger) {
 		this.gsm = gameStateManger;
 		timer.start();
+		level1 = new Level1Background("/res/backgrounds/level1.jpg",  1.0);
 
 	}
 
 	@Override
 	public void init() {
-		setMap(gsm.getConfig().getCreator().getMap(0));
 		player = gsm.getConfig().getPlayer();
+		player.setX(0);
+		player.setY(0);
 
 	}
 
 	@Override
 	public void update() {
 		
-		if(gravityEffect) {
-			player.update(gravity);
-		}
-		
-		map.setX(-player.getX() *0.07);
-		map.setY(-player.getY()* 0.07);
-		map.update();
+	level1.setPlayery(player.getY());
+	level1.update();	
+	player.update();	
 		
 		
 	}
@@ -58,9 +53,8 @@ public class Level1State extends GameState implements ActionListener{
 	public void draw(Graphics2D g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, GameCanvas.WIDTH, GameCanvas.HEIGHT);
-		map.mapDraw(g);
+		level1.draw(g);
 		player.draw(g);
-
 	}
 
 	@Override
@@ -90,14 +84,6 @@ public class Level1State extends GameState implements ActionListener{
 
 	}
 
-	public Map getMap() {
-		return map;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
 	public Player getPlayer() {
 		return player;
 	}
@@ -108,26 +94,6 @@ public class Level1State extends GameState implements ActionListener{
 
 	@Override
 	public void collsion() {	
-		float height = map.getTileSize() * map.getHeight();
-        float width =  map.getTileSize() * map.getWidth();
-        float playerX = (float) player.getX();
-        float playerY = (float) player.getY();
-        int tileRow =  (int) Math.abs((playerY - (height / 2)) / map.getTileSize());
-        int tileCol = (int) (playerX / map.getTileSize());
-        if(tileRow < map.getHeight() && tileCol < map.getWidth()) {
-        	if(map.getMap()[tileRow][tileCol]==Tile.BLOCKED) {
-        		player.setY(playerY * 0 + map.getTileSize()  - (player.getPlayRect().height - gravity) -9);
-        		gravityEffect = false;
-        	}
-        }
-        else if(tileRow < map.getHeight() && tileCol < map.getWidth()) {
-        	if(map.getMap()[tileRow][tileCol]==Tile.NORMAL) {
-        		gravityEffect = true;
-        	}
-        }
-        else {
-        		gravityEffect = true;	
-        }
 		
 	}
 
